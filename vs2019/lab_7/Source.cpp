@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include <locale.h>
 #define N 5
-#define IN_FILE_NAME "D:\\github\\vs2019\\lab_7\\test_4.txt"
+#define IN_FILE_NAME "D:\\github\\vs2019\\lab_7\\test_0.txt"
 #define OUT_FILE_NAME "D:\\github\\vs2019\\lab_7\\result.txt"
 void input_from_any(int a[N][N], bool is_stdin)
 {
@@ -40,7 +40,20 @@ void input_from_file(int a[N][N])
 
 int check_sort_row(const int a[N][N], int row)
 {
-	return -1;
+	if (a[row][1] == a[row][0]) {
+		return -1;
+	}
+	bool is_sort_asc = a[row][1] > a[row][0];
+	bool is_sort_desc = a[row][1] < a[row][0];
+	for (int col = 2; col < N; col++) {
+		if (is_sort_asc && (a[row][col] <= a[row][col-1])) {
+			return -1;
+		}
+		if (is_sort_desc && (a[row][col] >= a[row][col - 1])) {
+			return -1;
+		}
+	}
+	return 1;
 }
 
 int* check_sort_rows(int(*a)[N], int* x, void (*pfunc_input)(int[N][N]))
@@ -54,8 +67,16 @@ int* check_sort_rows(int(*a)[N], int* x, void (*pfunc_input)(int[N][N]))
 
 void min_max_diag(const int a[N][N], int index, int& min, int& max)
 {
-	min = 0;
-	max = 0;
+	if (index == N) {
+		return;
+	}
+	if (a[index][index] < min) {
+		min = a[index][index];
+	}
+	if (a[index][index] > max) {
+		max = a[index][index];
+	}
+	min_max_diag(a, index + 1, min, max);
 }
 
 void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
