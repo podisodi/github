@@ -98,13 +98,13 @@ void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 			fprintf(outfile, "\n");
 		};
 		fprintf(outfile,
-			"Массив x[%d] для попарного сравнения диагоналей матрицы a[% d][% d]:\n", N, N, N);
+			"Массив x[%d] для проверки есть ли упорядоченность по возрастанию или убыванию элементов в строке матрицы a[% d][% d]:\n", N, N, N);
 			for (int row = 0; row < N; row++) {
 				fprintf(outfile, "%d\t", x[row]);
 			};
 		fprintf(outfile, "\n");
 		fprintf(outfile, 
-			"Значение y = %d числа нечетных элементов %dго столбца матрицы a[% d][% d]:\n", y, 1, N, N);
+			"Значение y = %d среднего арифметического наименьшего и наибольшего элементов главной диагонали матрицы a[% d][% d]:\n", y, 1, N, N);
 			if (!is_stdout) {
 				fclose(outfile);
 			}
