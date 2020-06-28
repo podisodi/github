@@ -37,6 +37,27 @@ void input_from_file(int a[N][N])
 {
 	input_from_any(a, false);
 }
+
+int check_sort_row(const int a[N][N], int row)
+{
+	return -1;
+}
+
+int* check_sort_rows(int(*a)[N], int* x, void (*pfunc_input)(int[N][N]))
+{
+	pfunc_input(a);
+	for (int row = 0; row < N; row++) {
+		x[row] = check_sort_row(a, row);
+	};
+	return x;
+}
+
+void min_max_diag(const int a[N][N], int index, int& min, int& max)
+{
+	min = 0;
+	max = 0;
+}
+
 void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 {
 	FILE* outfile;
@@ -55,15 +76,14 @@ void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 			};
 			fprintf(outfile, "\n");
 		};
-		fprintf(outfile, "Массив x[%d] для попарного сравнения диагоналей
-			матрицы a[% d][% d]:\n", N, N, N);
+		fprintf(outfile,
+			"Массив x[%d] для попарного сравнения диагоналей матрицы a[% d][% d]:\n", N, N, N);
 			for (int row = 0; row < N; row++) {
 				fprintf(outfile, "%d\t", x[row]);
 			};
 		fprintf(outfile, "\n");
-		fprintf(outfile,
-			"Значение y = %d числа нечетных элементов %dго столбца матрицы
-			a[% d][% d]:\n", y, 1, N, N);
+		fprintf(outfile, 
+			"Значение y = %d числа нечетных элементов %dго столбца матрицы a[% d][% d]:\n", y, 1, N, N);
 			if (!is_stdout) {
 				fclose(outfile);
 			}
@@ -72,12 +92,29 @@ void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 		printf("err_fopen = %d", err_fopen);
 	};
 }
+
 void output(const int a[N][N], const int x[N], int y)
 {
 	output_to_any(a, x, y, false);
 	output_to_any(a, x, y, true);
 }
+
 int main()
 {
+	setlocale(LC_CTYPE, "");
+	int a[N][N];
+	int x[N];
+	int choice;
+	void (*pfunc_input)(int[N][N]);
+	printf("Выбор варианта ввода: 1 с кл-ры, 2 из файла\n", OUT_FILE_NAME);
+	do {
+		scanf_s("%d", &choice);
+	} while ((choice != 1) && (choice != 2));
+	pfunc_input = choice == 1 ? input_from_keyboard : input_from_file;
+	check_sort_rows(a, x, pfunc_input);
+	int min = a[0][0];
+	int max = a[0][0];
+	min_max_diag(a, 1, min, max);
+	output(a, x, (min+max)/2);
 	return 0;
 }
