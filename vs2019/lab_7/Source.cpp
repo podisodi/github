@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include <locale.h>
 #define N 5
-#define IN_FILE_NAME "D:\\github\\vs2019\\lab_7\\test_0.txt"
+#define IN_FILE_NAME "D:\\github\\vs2019\\lab_7\\test_3.txt"
 #define OUT_FILE_NAME "D:\\github\\vs2019\\lab_7\\result.txt"
 void input_from_any(int a[N][N], bool is_stdin)
 {
@@ -65,10 +65,10 @@ int* check_sort_rows(int(*a)[N], int* x, void (*pfunc_input)(int[N][N]))
 	return x;
 }
 
-void min_max_diag(const int a[N][N], int index, int& min, int& max)
+float min_max_diag(const int a[N][N], int index, int& min, int& max)
 {
 	if (index == N) {
-		return;
+		return ((min + max) / 2);
 	}
 	if (a[index][index] < min) {
 		min = a[index][index];
@@ -76,10 +76,10 @@ void min_max_diag(const int a[N][N], int index, int& min, int& max)
 	if (a[index][index] > max) {
 		max = a[index][index];
 	}
-	min_max_diag(a, index + 1, min, max);
+	return min_max_diag(a, index + 1, min, max);
 }
 
-void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
+void output_to_any(const int a[N][N], const int x[N], float y, bool is_stdout)
 {
 	FILE* outfile;
 	int err_fopen = 0;
@@ -104,7 +104,7 @@ void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 			};
 		fprintf(outfile, "\n");
 		fprintf(outfile, 
-			"Значение y = %d среднего арифметического наименьшего и наибольшего элементов главной диагонали матрицы a[% d][% d]:\n", y, 1, N, N);
+			"Значение y = %f среднего арифметического наименьшего и наибольшего элементов главной диагонали матрицы a[% d][% d]:\n", y, 1, N, N);
 			if (!is_stdout) {
 				fclose(outfile);
 			}
@@ -114,7 +114,7 @@ void output_to_any(const int a[N][N], const int x[N], int y, bool is_stdout)
 	};
 }
 
-void output(const int a[N][N], const int x[N], int y)
+void output(const int a[N][N], const int x[N], float y)
 {
 	output_to_any(a, x, y, false);
 	output_to_any(a, x, y, true);
@@ -135,7 +135,6 @@ int main()
 	check_sort_rows(a, x, pfunc_input);
 	int min = a[0][0];
 	int max = a[0][0];
-	min_max_diag(a, 1, min, max);
-	output(a, x, (min+max)/2);
+	output(a, x, min_max_diag(a, 1, min, max));
 	return 0;
 }
