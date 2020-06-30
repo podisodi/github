@@ -65,7 +65,7 @@ int* check_sort_rows(int(*a)[N], int* x, void (*pfunc_input)(int[N][N]))
 	return x;
 }
 
-float min_max_diag(const int a[N][N], int index, int& min, int& max)
+float average_extremes_main_diag(const int a[N][N], int index, int& min, int& max)
 {
 	if (index == N) {
 		return ((min + max) / 2);
@@ -76,7 +76,7 @@ float min_max_diag(const int a[N][N], int index, int& min, int& max)
 	if (a[index][index] > max) {
 		max = a[index][index];
 	}
-	return min_max_diag(a, index + 1, min, max);
+	return average_extremes_main_diag(a, index + 1, min, max);
 }
 
 void output_to_any(const int a[N][N], const int x[N], float y, bool is_stdout)
@@ -135,6 +135,6 @@ int main()
 	check_sort_rows(a, x, pfunc_input);
 	int min = a[0][0];
 	int max = a[0][0];
-	output(a, x, min_max_diag(a, 1, min, max));
+	output(a, x, average_extremes_main_diag(a, 1, min, max));
 	return 0;
 }
