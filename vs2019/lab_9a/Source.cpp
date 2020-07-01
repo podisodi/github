@@ -16,6 +16,14 @@ void reset_column(int** matr, int dim, int col) {
 	}
 }
 
+bool is_equal(int** matr, int dim, int col1, int col2) {
+	for (int row = 0; row < dim; row++) {
+		if (matr[col1][row] != matr[col2][row]) {
+			return false;
+		}
+	}
+	return true;
+}
 
 int main() {
 	setlocale(LC_CTYPE, "");
@@ -39,6 +47,7 @@ int main() {
 	printf("Исходная матрица a[%d][%d]\n", n, n);
 	out_matr(a, n);
 	for (col = 0; col < n; col++) {
+		printf("Столбец 0 и столбец %d %s эквивалентны\n", col, (is_equal(a, n, 0, col)? "": "НЕ"));
 		reset_column(a, n, col);
 	}
 
