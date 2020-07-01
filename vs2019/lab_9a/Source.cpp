@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <locale.h>
+
+void out_matr(int** matr, int dim) {
+	for (int row = 0; row < dim; row++) {
+		for (int col = 0; col < dim; col++) {
+			printf("%d \t", matr[col][row]);
+		}
+		printf("\n");
+	}
+}
+
+int main() {
+	setlocale(LC_CTYPE, "");
+	printf("Введите число n - размерность матрицы a[n][n] ");
+	int n;
+	scanf_s("%d", &n);
+	int* col_pos_cnt;
+	col_pos_cnt = new int[n]();
+	int** a, row, col;
+	a = new int* [n];
+	for (col = 0; col < n; col++) {
+		a[col] = new int[n];
+		printf("Введите %d  целых чисел столбца %d \n", n, col);
+		for (row = 0; row < n; row++) {
+			scanf_s("%d", &a[col][row]);
+			if (a[col][row] > 0) {
+				col_pos_cnt[col] = col_pos_cnt[col] ++;
+			};
+		};
+	};
+	printf("Исходная матрица a[%d][%d]\n", n, n);
+	out_matr(a, n);
+
+
+	printf("Матрица a[%d][%d] после изменения\n", n, n);
+	out_matr(a, n);
+	delete[]a;
+	return 0;
+}
