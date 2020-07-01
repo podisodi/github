@@ -41,28 +41,33 @@ int main() {
 	printf("Введите число n - размерность матрицы a[n][n] ");
 	int n;
 	scanf_s("%d", &n);
-	int* col_pos_cnt;
-	col_pos_cnt = new int[n]();
 	int** a, row, col;
 	a = new int* [n];
 	for (col = 0; col < n; col++) {
 		a[col] = new int[n];
-		printf("Введите %d  целых чисел столбца %d \n", n, col);
+		printf("Введите %d  целых чисел, не равных 0, столбца %d \n", n, col);
 		for (row = 0; row < n; row++) {
-			scanf_s("%d", &a[col][row]);
-			if (a[col][row] > 0) {
-				col_pos_cnt[col] = col_pos_cnt[col] ++;
-			};
+			do {
+				scanf_s("%d", &a[col][row]);
+				if (a[col][row] == 0) {
+					printf("Недопустимое значение 0, повторите ввод!\n");
+				}
+			} while (a[col][row] == 0);
 		};
 	};
 	printf("Исходная матрица a[%d][%d]\n", n, n);
 	out_matr(a, n);
 	for (col = 0; col < n; col++) {
 		sort_column(a[col], n);
-		printf("Столбец 0 и столбец %d %s эквивалентны\n", col, (is_equal(a[0],a[col], n) ? "" : "НЕ"));
-		//reset_column(a[col], n);
 	}
-
+	for (int start_col = 0; start_col < n - 1; start_col++) {
+		for (col = start_col+1; col < n; col++) {
+			if (is_equal(a[start_col], a[col], n)) {
+				reset_column(a[col], n);
+				printf("Столбец %d и столбец %d  эквивалентны\n", start_col, col );
+			}
+		}
+	}
 	printf("Матрица a[%d][%d] после изменения\n", n, n);
 	out_matr(a, n);
 	delete[]a;
