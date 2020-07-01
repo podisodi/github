@@ -10,6 +10,13 @@ void out_matr(int** matr, int dim) {
 	}
 }
 
+void reset_column(int** matr, int dim, int col) {
+	for (int row = 0; row < dim; row++) {
+		 matr[col][row] = 0;
+	}
+}
+
+
 int main() {
 	setlocale(LC_CTYPE, "");
 	printf("Введите число n - размерность матрицы a[n][n] ");
@@ -31,7 +38,9 @@ int main() {
 	};
 	printf("Исходная матрица a[%d][%d]\n", n, n);
 	out_matr(a, n);
-
+	for (col = 0; col < n; col++) {
+		reset_column(a, n, col);
+	}
 
 	printf("Матрица a[%d][%d] после изменения\n", n, n);
 	out_matr(a, n);
