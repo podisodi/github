@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
+#include <algorithm>
 
 void out_matr(int** matr, int dim) {
 	for (int row = 0; row < dim; row++) {
@@ -10,15 +11,25 @@ void out_matr(int** matr, int dim) {
 	}
 }
 
-void reset_column(int** matr, int dim, int col) {
+void reset_column(int*col, int dim) {
 	for (int row = 0; row < dim; row++) {
-		 matr[col][row] = 0;
+		 col[row] = 0;
 	}
 }
 
-bool is_equal(int** matr, int dim, int col1, int col2) {
+void sort_column(int *col, int dim) {
+	for (int startIndex = 0; startIndex < dim - 1; ++startIndex) {
+		int smallestIndex = startIndex;
+		for (int currentIndex = startIndex + 1; currentIndex < dim; ++currentIndex) {
+			if (col[currentIndex] < col[smallestIndex])
+				smallestIndex = currentIndex;
+		}
+		std::swap(col[startIndex], col[smallestIndex]);
+	}
+}
+bool is_equal(int* col1, int* col2, int dim) {
 	for (int row = 0; row < dim; row++) {
-		if (matr[col1][row] != matr[col2][row]) {
+		if (col1[row] != col2[row]) {
 			return false;
 		}
 	}
@@ -47,8 +58,9 @@ int main() {
 	printf("Исходная матрица a[%d][%d]\n", n, n);
 	out_matr(a, n);
 	for (col = 0; col < n; col++) {
-		printf("Столбец 0 и столбец %d %s эквивалентны\n", col, (is_equal(a, n, 0, col)? "": "НЕ"));
-		reset_column(a, n, col);
+		sort_column(a[col], n);
+		printf("Столбец 0 и столбец %d %s эквивалентны\n", col, (is_equal(a[0],a[col], n) ? "" : "НЕ"));
+		//reset_column(a[col], n);
 	}
 
 	printf("Матрица a[%d][%d] после изменения\n", n, n);
